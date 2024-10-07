@@ -1,0 +1,36 @@
+{% extends 'blog/base_full_width.html' %}
+
+{% block head_title %}Create Post{% endblock %}
+
+
+{% block main_area %}
+<br>
+<div class="card p-3 mb-5" style="box-shadow: 3px 3px 5px grey; border: none;">
+    <h4 class="text-center"><strong>레시피 자랑하기</strong></h4>
+
+    <form method="post" enctype="multipart/form-data" class="text-center">
+        {% csrf_token %}
+        <!--Create View 커스터마이징-->
+        <!--제목-->
+        <div class="form-group">
+            <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요">
+        </div>
+        <!--내용-->
+        <div class="form-group">
+            <textarea class="form-control" id="content" name="content" rows="5" placeholder="본문을 입력하세요">{{ content }}</textarea>
+        </div>
+        <!--태그-->
+        <div class="form-group">
+            <input type="text" class="form-control" id="tags_str" name="tags_str" placeholder="음식명을 입력하세요" value="{{ tags_str }}">
+        </div>
+        <!--이미지 삽입 -->
+        <div class="form-group text-left" style="font-size:12px;">
+            {{ form.head_image }}
+        </div>
+<!--        <div class="form-group" style="font-size:12px;">-->
+<!--            <input type="file" class="form-control-file" id="image" name="image">-->
+<!--        </div>-->
+        <button type="submit" class="btn btn btn-success btn-sm" style="float:right;">게시하기</button>
+    </form>
+</div>
+{% endblock %}

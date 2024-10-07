@@ -1,0 +1,23 @@
+{% extends "../base.html" %}
+{% load i18n %}
+{% load allauth %}
+
+{% block content %}
+    <!--이미 연결이 있는 경우-->
+    {% if process == "connect" %}
+        <script>
+           alert("{{ provider }}에서 새로운 타사 계정을 연결하려고 합니다.");
+        </script>
+    <!--새롭게 연결을 시도하는 경우-->
+    {% else %}
+        <script>
+           alert("{{ provider }} 계정으로 로그인합니다!");
+        </script>
+    {% endif %}
+
+    <!--사용자 인증 토큰을 넘겨준다.-->
+    <form id="continue-form" method="post">
+        {% csrf_token %}
+        <input type="submit" style="display: none;">
+    </form>
+{% endblock content %}

@@ -1,0 +1,78 @@
+{% load socialaccount %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container" style="font-size:15px;">
+        <a class="navbar-brand" href="/blog/">레시피 공유</a>
+
+        <!--화면크기가 줄어들면 햄버거 메뉴로 변경-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                    <a class="nav-link" href="/blog/input_ingredients/">메뉴 추천 받기!</a>
+                    {% else %}
+                    <a class="nav-link" href="#" onclick="loginAlert()">메뉴 추천 받기!</a>
+                    <script>
+                        function loginAlert() {
+                            alert("로그인이 필요한 서비스입니다.");
+                            window.location.href = "/accounts/login/";
+                        }
+                    </script>
+                    {% endif %}
+                </li>
+            </ul>
+
+            <!--Login 및 사용자 계정-->
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                    </a>
+                    <div class="dropdown-menu w-25" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item text-center" href="/accounts/logout/">Log Out</a>
+                    </div>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Log In</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="logInModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel"> <i class="fas fa-sign-in-alt"></i>&nbsp Log In</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i>&nbsp&nbsp Google 계정으로 로그인</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="/accounts/login/"><i class="far fa-envelope"></i>&nbsp&nbsp 사용자 계정으로 로그인</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

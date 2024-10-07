@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>추천 메뉴 목록</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'blog/asserts/favicon.png' %}"/>
+    <!-- 프로젝트에 맞는 추가적인 CSS -->
+    <link href="{% static 'blog/css/reco_style.css' %}" rel="stylesheet">
+</head>
+<body>
+<header class="food d-flex justify-content-center align-items-center vh-100" style="background-image: url('{% static '/blog/asserts/images/backgd.jpg' %}'); overflow: auto;">
+    <div class="d-flex justify-content-center pb-1" style="max-width: 600px; max-height: 600px;">
+        <div class="container px-3 px-lg-5 d-flex h-100 align-items-center justify-content-center" style="background-color: rgb(0,100,0); opacity: 0.9; padding: 10px; box-shadow: 10px 5px 5px black; border-radius: 15px;">
+            <div id="reco">
+                <h1 class="fw-bold text-center" style="color: beige; opacity: 1; font-size: clamp(0.625rem, 5vw, 2.5rem);">{{ menu_name | linebreaksbr | safe }}</h1>
+                <div class="container pl-4 pr-4">
+                    <div class="container mb-3 p-3" style="background-color:white; opacity: 1; border-radius: 15px; overflow: auto; font-size: clamp(0.625rem, 2vw, 1rem);">
+                        {{ ingredients | linebreaksbr | safe }}
+                    </div>
+                    <div class="container p-3" style="background-color:white; opacity: 1; border-radius: 15px; overflow: auto; font-size: clamp(0.625rem, 2vw, 1rem);">
+                        {{ recipe | linebreaksbr | safe }}
+                    </div>
+                </div>
+                <div class="text-center mt-1">
+                    <form id="post_form" style="margin-top:10px;" action="{% url 'blog:post_form' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="menu_name" value="{{ menu_name }}">
+                        <input type="hidden" name="ingredients" value="{{ ingredients }}">
+                        <input type="hidden" name="recipe" value="{{ recipe }}">
+                        <button type="submit" class="btn btn-primary fw-bold" id="create_post_btn" style="font-size:10px;">게시글 등록하기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- 프로젝트에 맞는 추가적인 JS -->
+<script src="{% static 'blog/js/reco_scripts.js' %}"></script>
+</body>
+</html>

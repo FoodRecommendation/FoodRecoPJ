@@ -1,0 +1,35 @@
+{% extends 'blog/base_full_width.html' %}
+
+{% block head_title %}edit Post{% endblock %}
+
+{% block main_area %}
+<br>
+<div class="card p-3 mb-5" style="box-shadow: 3px 3px 5px grey; border: none;">
+    <h4 class="text-center"><strong>레시피 수정하기</strong></h4>
+
+    <form method="post" enctype="multipart/form-data" class="text-center">
+        {% csrf_token %}
+        <!--태그-->
+        <div class="form-group text-left">
+             <label for="tags_str" style="font-size:15px;">음식명</label>
+             <input type="text" class="form-control" id="tags_str" name="tags_str" placeholder="음식명을 입력해주세요" value="{{ tags_str_default }}">
+        </div>
+        <!--제목-->
+        <div class="form-group text-left">
+           <label for="title" style="font-size:15px;">제목</label>
+           <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" value="{{ post.title }}">
+        </div>
+        <!--내용-->
+        <div class="form-group text-left">
+            <label for="content" style="font-size:15px;">본문</label>
+            <textarea class="form-control" id="content" name="content" rows="10" placeholder="본문을 입력하세요">{{ post.content }}</textarea>
+        </div>
+        <!--이미지 변경-->
+        <div class="form-group text-left" style="font-size:12px;">
+            {{ form.head_image }}
+        </div>
+
+        <button type="submit" class="btn btn btn-success btn-sm float-right">Submit</button>
+    </form>
+</div>
+{% endblock %}

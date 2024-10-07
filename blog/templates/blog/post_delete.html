@@ -1,0 +1,23 @@
+{% extends 'blog/base_full_width.html' %}
+
+{% block head_title %}edit Post{% endblock %}
+
+{% block main_area %}
+<script>
+    window.onload = function() {
+        // 페이지가 로드시 실행
+        var formPopup = confirm("해당 게시물을 정말로 삭제하시겠습니까?");
+        if (formPopup) {
+            // 확인 버튼을 누르면 해당 폼을 자동으로 제출
+            document.getElementById('deleteForm').submit();
+        } else {
+            // 취소 버튼을 누르면 이전화면으로 돌아간다.
+            window.history.back();
+        }
+    };
+</script>
+
+<form id="deleteForm" method="post">{% csrf_token %}
+</form>
+
+{% endblock %}

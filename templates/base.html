@@ -1,0 +1,394 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+        <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
+        <link rel="icon" type="image/x-icon" href="{% static 'blog/asserts/favicon.png' %}"/>
+
+        <title>
+            {% block head_title %}
+            {% endblock head_title %}
+        </title>
+        {% block extra_head %}
+        {% endblock extra_head %}
+    </head>
+    <body>
+    <style>
+         body{
+              margin:0;
+              color:#6a6f8c;
+              //background:#c8c8c8;
+              //background:url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg) no-repeat center;
+              font:600 16px/18px 'Open Sans',sans-serif;
+            }
+            *,:after,:before{box-sizing:border-box}
+            .clearfix:after,.clearfix:before{content:'';display:table}
+            .clearfix:after{clear:both;display:block}
+            a{color:inherit;text-decoration:none}
+
+            .login-wrap {
+              width: 100%;
+              max-width: 525px;
+              min-height: 600px;
+              position: relative;
+              box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
+            }
+            /* 화면 너비가 457px 이하일 때 스타일 변경 */
+            @media screen and (max-width: 457px) {
+              body {
+                font-size: 12px; /* 작은 화면에서는 폰트 크기를 작게 조정 */
+              }
+              .login-wrap {
+                width: 80%;
+                min-height: 600px; /* 모바일에서도 최소 높이 유지 */
+                position: relative;
+              }
+            }
+            .login-html{
+              width:100%;
+              height:100%;
+              position:absolute;
+              padding:40px 70px 30px 70px;  // 위 오른쪽 아래 왼쪽
+              //background:rgba(40,57,101,.9);
+              background: rgb(0,100,0);
+              opacity: 0.9;
+              box-shadow: 5px 5px 5px black;
+              border-radius: 15px;
+            }
+            @media screen and (max-width: 457px) {
+              body {
+                font-size: 12px; /* 작은 화면에서는 폰트 크기를 작게 조정 */
+              }
+              .login-html {
+                  width:100%;
+                  height:100%;
+                  position:absolute;
+                  padding:30px 50px 30px 50px;  // 위 오른쪽 아래 왼쪽
+                  //background:rgba(40,57,101,.9);
+                  background: rgb(0,100,0);
+                  opacity: 0.9;
+                  box-shadow: 5px 5px 5px black;
+                  border-radius: 15px;
+              }
+              .login-html .tab{
+                  font-size:18px;
+                  margin-right:15px;
+                  padding-bottom:5px;
+                  margin:0 15px 10px 0;
+                  display:inline-block;
+                  border-bottom:2px solid transparent;
+                }
+                .button--social-login {
+                  margin-bottom: 12px;
+                  margin-right: 12px;
+                  color: white;
+                  height: 50px;
+                  line-height: 46px;
+                  position: relative;
+                  text-align: left;
+                }
+            }
+            .login-html .sign-in-htm,
+            .login-html .sign-up-htm{
+              top:0;
+              left:0;
+              right:0;
+              bottom:0;
+              position:absolute;
+              transform:rotateY(180deg);
+              backface-visibility:hidden;
+              transition:all .4s linear;
+            }
+            .login-html .sign-in,
+            .login-html .sign-up,
+            .login-form .group .check{
+              display:none;
+            }
+            .login-html .tab,
+            .login-form .group .label,
+            .login-form .group .button{
+              text-transform:uppercase;
+            }
+            .login-html .tab{
+              font-size:22px;
+              margin-right:15px;
+              padding-bottom:5px;
+              margin:0 15px 10px 0;
+              display:inline-block;
+              border-bottom:2px solid transparent;
+            }
+            .login-html .sign-in:checked + .tab,
+            .login-html .sign-up:checked + .tab{
+              color:#fff;
+              border-color:#1161ee;
+            }
+            .login-form{
+              min-height:345px;
+              position:relative;
+              perspective:1000px;
+              transform-style:preserve-3d;
+            }
+            .login-form .group{
+              margin-bottom:15px;
+            }
+            .login-form .group .label,
+            .login-form .group .input,
+            .login-form .group .button{
+              width:100%;
+              color:#fff;
+              display:block;
+            }
+            .login-form .group .input,
+            .login-form .group .button{
+              border:none;
+              padding:15px 20px;
+              border-radius:25px;
+              background:rgba(255,255,255,.1);
+            }
+            .login-form .group input[data-type="password"]{
+              text-security:circle;
+              -webkit-text-security:circle;
+            }
+            .login-form .group .label{
+              color:#aaa;
+              font-size:12px;
+            }
+            .login-form .group .button{
+              background:#1161ee;
+            }
+            .login-form .group label .icon{
+              width:15px;
+              height:15px;
+              border-radius:2px;
+              position:relative;
+              display:inline-block;
+              background:rgba(255,255,255,.1);
+            }
+            .login-form .group label .icon:before,
+            .login-form .group label .icon:after{
+              content:'';
+              width:10px;
+              height:2px;
+              background:#fff;
+              position:absolute;
+              transition:all .2s ease-in-out 0s;
+            }
+            .login-form .group label .icon:before{
+              left:3px;
+              width:5px;
+              bottom:6px;
+              transform:scale(0) rotate(0);
+            }
+            .login-form .group label .icon:after{
+              top:6px;
+              right:0;
+              transform:scale(0) rotate(0);
+            }
+            .login-form .group .check:checked + label{
+              color:#fff;
+            }
+            .login-form .group .check:checked + label .icon{
+              background:#1161ee;
+            }
+            .login-form .group .check:checked + label .icon:before{
+              transform:scale(1) rotate(45deg);
+            }
+            .login-form .group .check:checked + label .icon:after{
+              transform:scale(1) rotate(-45deg);
+            }
+            .login-html .sign-in:checked + .tab + .sign-up + .tab + .login-form .sign-in-htm{
+              transform:rotate(0);
+            }
+            .login-html .sign-up:checked + .tab + .login-form .sign-up-htm{
+              transform:rotate(0);
+            }
+
+            .hr{
+              height:2px;
+              margin:80px 0 10px 0;
+              background:rgba(255,255,255,.2);
+            }
+            .foot-lnk{
+              text-align:center;
+            }
+
+            @import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,700);
+            .button {
+              width: auto;
+              display: inline-block;
+              padding: 0 18px 0 6px;
+              border: 0 none;
+              border-radius: 5px;
+              text-decoration: none;
+              transition: all 250ms linear;
+              background-color:black;
+            }
+            .button:hover {
+              text-decoration: none;
+            }
+            .button--social-login {
+              margin-bottom: 12px;
+              margin-right: 12px;
+              color: white;
+              height: 50px;
+              line-height: 46px;
+              position: relative;
+              text-align: left;
+            }
+            .button--social-login .icon {
+              margin-right: 12px;
+              font-size: 24px;
+              line-height: 24px;
+              width: 42px;
+              height: 24px;
+              text-align: center;
+              display: inline-block;
+              position: relative;
+              top: 4px;
+            }
+            .button--social-login .icon:before {
+              display: inline-block;
+              width: 40px;
+            }
+            .button--social-login .icon:after {
+              content: "";
+            }
+            .button--google {
+              background-color: #3F85F4;
+              border: 1px solid #0f66f1;
+            }
+            .button--google .icon {
+              border-right: 1px solid #0f66f1;
+            }
+            .button--google .icon:after {
+              border-right: 1px solid #6fa4f7;
+            }
+            .button--google:hover {
+              background-color: #2776f3;
+            }
+            .food {
+              position: relative;
+              width: 100%;
+              height: auto;
+              min-height: 35rem;
+              padding: 10rem 0;
+              background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../assets/img/food.jpg");
+              background-position: center;
+              background-repeat: no-repeat;
+              background-attachment: scroll;
+              background-size: cover;
+              filter: brightness(100%);
+            }
+
+            .btn {
+              width: auto;
+              display: inline-block;
+              padding: 0 18px 0 6px;
+              border: 0 none;
+              border-radius: 5px;
+              text-decoration: none;
+              transition: all 250ms linear;
+            }
+            .button:hover {
+              text-decoration: none;
+            }
+
+            @media screen and (max-width: 387px) {
+              .tab a {
+                font-size: 0.5em; /* 원하는 크기로 조절 */
+              }
+              .foot-lnk {
+                color: transparent; /* 텍스트를 투명하게 만들어 숨김 */
+                font-size: 0; /* 글자 크기를 0으로 설정하여 숨김 */
+              }
+              .foot-lnk a {
+                font-size: 0.5em; /* 원하는 크기로 조절 */
+              }
+              .button--social-login {
+                padding-top: 5px;
+                margin-bottom: 6px; /* 버튼 간격 조정 */
+                margin-right: 6px; /* 버튼 간격 조정 */
+                color: white;
+                height: 40px; /* 원하는 높이로 조절 */
+                line-height: 36px; /* 버튼 내용 수직 정렬 */
+                position: relative;
+                text-align: left;
+              }
+
+              .btn {
+              --bs-btn-padding-x: 0.75rem;
+              --bs-btn-padding-y: 0.375rem;
+              --bs-btn-font-family: ;
+              --bs-btn-font-size: 1rem;
+              --bs-btn-font-weight: 400;
+              --bs-btn-line-height: 1.5;
+              --bs-btn-color: #212529;
+              --bs-btn-bg: transparent;
+              --bs-btn-border-width: 1px;
+              --bs-btn-border-color: transparent;
+              --bs-btn-border-radius: 0.375rem;
+              --bs-btn-hover-border-color: transparent;
+              --bs-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+              --bs-btn-disabled-opacity: 0.65;
+              --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), .5);
+              display: inline-block;
+              padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+              font-family: var(--bs-btn-font-family);
+              font-size: var(--bs-btn-font-size);
+              font-weight: var(--bs-btn-font-weight);
+              line-height: var(--bs-btn-line-height);
+              color: var(--bs-btn-color);
+              text-align: center;
+              text-decoration: none;
+              vertical-align: middle;
+              cursor: pointer;
+              -webkit-user-select: none;
+                 -moz-user-select: none;
+                      user-select: none;
+              border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
+              border-radius: var(--bs-btn-border-radius);
+              background-color: var(--bs-btn-bg);
+              transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            }
+    </style>
+
+    {% block body %}
+    <header class="food d-flex justify-content-center align-items-center vh-100"
+            style="background-image: url('{% static '/blog/asserts/images/backgd.jpg' %}');">
+        {% block content %}
+        {% endblock content %}
+    </header>
+    {% endblock body %}
+
+
+    {% block extra_body %}
+    {% endblock extra_body %}
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var passwordInput = document.getElementById("id_password1");   //입력한 pw
+        var confirmPasswordInput = document.getElementById("id_password2"); //두번째 입력한 pw
+
+        function validatePassword() {
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                confirmPasswordInput.setCustomValidity("비밀번호가 일치하지 않습니다.");  // 비밀번호가 일치하지 않으면 알려줌
+            } else {
+                confirmPasswordInput.setCustomValidity("");
+            }
+        }
+
+        passwordInput.addEventListener("change", validatePassword);
+        confirmPasswordInput.addEventListener("keyup", validatePassword);
+      });
+
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('continue-form').submit();
+      });
+    </script>
+    </body>
+</html>

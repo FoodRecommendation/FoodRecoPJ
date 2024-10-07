@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>추천 메뉴 목록</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'blog/asserts/favicon.png' %}"/>
+    <!-- 프로젝트에 맞는 추가적인 CSS -->
+    <link href="{% static 'blog/css/reco_style.css' %}" rel="stylesheet">
+</head>
+<body>
+<header class="food d-flex justify-content-center align-items-center vh-100"
+        style="background-image: url('{% static '/blog/asserts/images/backgd.jpg' %}');">
+    <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+        <div class="d-flex justify-content-center"
+             style="background-color: rgb(0,100,0); opacity: 0.9; padding: 20px; box-shadow: 10px 5px 5px black; border-radius: 15px;">
+            <div class="text-center" style="text-align: center;">
+                <h1 class="fw-bold mb-4" style="color: beige; opacity: 1;"> 추천 메뉴 목록</h1>
+                <ul class="list-group">
+                    {% for menu in recommended_menus %}
+                    <li class="list-group-item d-flex align-items-center" style="margin: 10px; border-radius: 15px;">
+                        <img class="card-img-top img-fluid" src="{% static 'blog/asserts/images/food/' %}{{ menu }}.jpeg" alt="No Image" style="width: 100px; height: 100px; margin-right: 10px; border-radius: 15px;">
+                        <a href="{% url 'blog:recipe' menu %}" style="text-decoration: none; display: inline-block; width: 100%; color:black; font-weight: bold;">
+                            {{ menu }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+    <!-- 프로젝트에 맞는 추가적인 JS -->
+    <script src="{% static 'blog/js/reco_scripts.js' %}"></script>
+</body>
+</html>

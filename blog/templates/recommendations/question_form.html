@@ -1,0 +1,32 @@
+<form id="questionForm" action="{% url 'blog:ask_question' %}" method="post">
+    <label for="questionInput">질문을 입력하세요:</label><br>
+    <input type="text" id="questionInput" name="question"><br>
+    <label for="tasteInput">취향을 입력하세요:</label><br>
+    <input type="text" id="tasteInput" name="taste" placeholder="예) 간결한 단어로 입력해주시면 더 정확한 답변을 얻을 수 있습니다!"><br>
+    <input type="submit" value="Submit">
+    {% csrf_token %}
+</form>
+
+
+<!--<script>-->
+<!--document.getElementById("questionForm").addEventListener("submit", function(event) {-->
+<!--    event.preventDefault(); // 폼 제출 방지-->
+<!--    var formData = new FormData(this);-->
+<!--    var question = formData.get("question");-->
+
+<!--    fetch(this.action, {-->
+<!--        method: this.method,-->
+<!--        body: formData,-->
+<!--        headers: {-->
+<!--            "X-CSRFToken": "{{ csrf_token }}"-->
+<!--        }-->
+<!--    })-->
+<!--    .then(response => response.json())-->
+<!--    .then(data => {-->
+<!--        document.getElementById("responseContainer").innerHTML = data.response;-->
+<!--    })-->
+<!--    .catch(error => {-->
+<!--        console.error("Error:", error);-->
+<!--    });-->
+<!--});-->
+<!--</script>-->

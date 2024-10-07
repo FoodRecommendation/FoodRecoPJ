@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ menu }} 레시피</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'blog/asserts/favicon.png' %}"/>
+    <!-- 프로젝트에 맞는 추가적인 CSS -->
+    <link href="{% static 'blog/css/reco_style.css' %}" rel="stylesheet">
+</head>
+<body>
+<header class="food d-flex justify-content-center align-items-center vh-100"
+        style="background-image: url('{% static '/blog/asserts/images/backgd.jpg' %}');">
+    <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+        <div class="d-flex justify-content-center"
+             style="background-color: rgb(0,100,0); opacity: 0.9; padding: 20px; box-shadow: 10px 5px 5px black; border-radius: 15px;">
+            <div class="text-center" style="text-align: center;">
+                <h1 class="fw-bold" style="color: beige; opacity: 1;">{{ menu }} 레시피</h1>
+                <p class="fw-bold" style="color: beige; opacity: 1;"> 메뉴에 대한 당신의 취향을 알려주세요!</p>
+                <form id="questionForm" action="{% url 'blog:ask_question' %}" method="post">
+                    {% csrf_token %}
+                    <!--앞에서 받아온 메뉴명을 gpt에 그대로 넘겨주기 위함-->
+                    <input type="hidden" id="questionInput" name="question" value="{{ menu }}"><br>
+                    <div class="form-group mb-3">
+                        <input class="form-control" type="text" id="tasteInput" name="taste"
+                               placeholder="간결한 단어와 콤마(,) 로 구분 지어 입력해 주시면 더 정확한 답변을 얻을 수 있습니다! ex)싱겁게, 고기많이" style="font-size:13px;">
+                    </div>
+                    <button type="submit" id="recipeBtn" class="btn btn-primary fw-bold">레시피 확인 하기</button>
+                    <div id="loading" style="display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+<!--                        <a target="_blank" href="https://icons8.com/icon/TqAfTB5Io08w/spinner">스피너</a> 작가: <a target="_blank" href="https://icons8.com">Icons8</a>-->
+                        <img src="{% static '/blog/asserts/loading/loading.gif' %}" alt="로딩 중...">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <!-- 프로젝트에 맞는 추가적인 JS -->
+    <script src="{% static 'blog/js/reco_scripts.js' %}"></script>
+    <script>
+        document.getElementById("recipeBtn").addEventListener("click", function() {
+            document.getElementById("loading").style.display = "block"; // 로딩 화면 표시
+        });
+    </script>
+</body>
+</html>

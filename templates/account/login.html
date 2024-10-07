@@ -1,0 +1,80 @@
+{% extends "../base.html" %}
+{% load i18n %}
+{% load allauth account %}
+
+<!--타이틀-->
+{% block head_title %}
+    {% trans "로그인" %}
+{% endblock head_title %}
+
+
+{% block content %}
+<div class="login-wrap">
+    <div class="login-html">
+        <!--상단 Sign In / Sign Up-->
+        <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
+        <label for="tab-1" class="tab">
+            <a href="{% url 'account_login' %}">Sign In</a>
+        </label>
+
+        <input id="tab-2" type="radio" name="tab" class="sign-up">
+        <label for="tab-2" class="tab">
+            <a href="{% url 'account_signup' %}">Sign Up</a>
+        </label>
+
+        <!--로그인 폼-->
+        <div class="login-form">
+            <div class="sign-in-htm">
+                <!-- 정보 입력란 -->
+                <form method="post" action="{% url 'account_login' %}">
+                    <!-- CSRF 토큰 -->
+                    {% csrf_token %}
+
+                    <!-- 아이디 입력 -->
+                    <div class="group">
+                        <label for="id_username" class="label">{% trans "Username" %}</label>
+                        <input type="text" id="id_username" name="login" class="input">
+                    </div>
+
+                    <!-- 비밀번호 입력 -->
+                    <div class="group">
+                        <label for="id_password" class="label">{% trans "Password" %}</label>
+                        <input type="password" id="id_password" name="password" class="input">
+                    </div>
+
+                    <!-- 로그인 성공 하면 redirection 페이지 지정 -->
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+                    {% endif %}
+
+                    <!--계정을 틀렸을 경우-->
+                    <script>
+                        {% if form.non_field_errors %}
+                        alert("존재하지 않는 계정입니다.");
+                        {% endif %}
+
+                    </script>
+
+                    <!--Sign In 버튼-->
+                    <div class="group">
+                        <input type="submit" class="button" style="background-color:#64a19d; font-weight: bold; font-size:14px;" value="{% trans " Sign In" %}">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="hr mt-2"></div>
+        <div class="foot-lnk">
+            <!--소셜 로그인-->
+            {% if SOCIALACCOUNT_ENABLED %}
+                <a class="button button--social-login button--google" style="width: 100%;" href="/accounts/google/login/?process=login">
+                    <i class="icon fa fa-google"></i>
+                    구글 계정으로 로그인
+                </a>
+            {% endif %}
+        </div>
+
+
+    </div>
+</div>
+{% endblock content %}

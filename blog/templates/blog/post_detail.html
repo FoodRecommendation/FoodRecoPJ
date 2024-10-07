@@ -1,0 +1,78 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+
+{% block main_area %}
+<!--상단 : 삭제 및 수정 버튼 배치-->
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+    {% if user.is_authenticated and user == post.author %}
+    <form class="form-inline">
+        <a class="btn btn btn-success btn-sm" href="/blog/update_post/{{ post.pk }}/" role="button">
+            <i class="fas fa-pen"></i>
+            <span class="ml-2 align-middle" style="font-size: 10px;">Edit Post</span>
+        </a>
+    </form>
+
+    <form class="form-inline">
+        <a class="btn btn btn-success btn-sm" href="/blog/delete_post/{{ post.pk }}/" role="button">
+            <i class="fas fa-pen"></i>
+            <span class="ml-2 align-middle" style="font-size: 10px;">Delete Post</span>
+        </a>
+    </form>
+    {% endif %}
+</div>
+
+<div class="card mb-4" style="box-shadow: 3px 3px 5px grey; border: none;" id="post_area">
+
+    <!--좋아요-->
+    {% if user.is_authenticated %}
+    <form class="text-right" method="post" action="{% url 'blog:like_post' post.pk %}" id="like_form_{{ post.pk }}">
+        {% csrf_token %}
+        {% if request.user in post.likes.all %}
+        <button type="submit" class="btn btn-primary" style="border: none; background-color: transparent;"><i class="fas fa-heart" style="color: red;"></i></button>
+        {% else %}
+        <button type="submit" class="btn btn-primary" style="border: none; background-color: transparent;"><i class="far fa-heart" style="color: black;"></i></button>
+        {% endif %}
+    </form>
+    {% endif %}
+
+    <!-- Image가 존재한다면 들어갈 부분 입니다.-->
+    {% if post.head_image %}
+    <img class="card-img-top img-fluid mx-auto" src="{{ post.head_image.url }}" alt="detail_image"
+         style="max-width: 150px; max-height: 150px;">
+    {% else %}
+    <img class="card-img-top img-fluid mx-auto" src="{% static 'blog/asserts/images/no-image.png' %}" alt="No Image"
+         style="max-width: 800px; max-height: 200px;">
+
+    {% endif %}
+
+    <!--태그-->
+    <div class="text-left mb-1 ml-3 mr-3 pl-3 pr-3" style="font-size: 13px;">
+        <!--제목-->
+        <h1 class="mt-4 text-center">{{ post.title }}</h1>
+        <div style="float:left;">
+            {% if post.tags.exists %}
+            <i class="fas fa-tags"></i>
+            {% for tag in post.tags.iterator %}
+            <a href="{{ tag.get_absolute_url }}">
+                <span class="badge badge-pill badge-dark">{{ tag }}</span>
+            </a>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <div style="float:right;">
+            <!-- 작성자 -->
+            <p class="mt-0 mb-0 mr-2 text-right" style="font-size:13px;"><a><strong>{{ post.author }}님이 추천하는 레시피</a></p>
+        </div>
+    </div>
+
+    <hr class="mt-1">
+
+    <!--내용-->
+    <div class="container pl-3 pr-3 pb-3" style="font-size:12px;">
+        {{ post.content | linebreaksbr }}
+    </div>
+</div>
+
+{% endblock %}

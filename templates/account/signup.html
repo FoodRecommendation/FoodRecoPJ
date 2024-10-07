@@ -1,0 +1,103 @@
+{% extends "../base.html" %}
+{% load allauth i18n %}
+
+<!--타이틀-->
+{% block head_title %}
+    {% trans "회원가입" %}
+{% endblock head_title %}
+
+{% block content %}
+<div class="login-wrap">
+    <div class="login-html">
+        <!--상단 Sign In / Sign Up-->
+        <input id="tab-1" type="radio" name="tab" class="sign-in">
+        <label for="tab-1" class="tab">
+            <a href="{% url 'account_login' %}">Sign In</a>
+        </label>
+
+        <input id="tab-2" type="radio" name="tab" class="sign-up" checked>
+        <label for="tab-2" class="tab">
+            <a href="{% url 'account_signup' %}">Sign Up</a>
+        </label>
+
+        <!--회원가입 폼-->
+        <div class="login-form">
+            <div class="sign-up-htm">
+                 <!--정보 입력란-->
+                <form method="post" action="{% url 'account_signup' %}">
+                    <!-- CSRF 토큰 -->
+                    {% csrf_token %}
+                    <!-- 아이디 입력 -->
+                    <div class="group">
+                        <label for="id_username" class="label">{% trans "Username" %}</label>
+                        <input type="text" id="id_username" name="username" class="input" required>
+                    </div>
+
+                    <!-- 이메일 입력 -->
+                    <div class="group">
+                        <label for="id_email" class="label">{% trans "E-mail" %}</label>
+                        <input type="email" id="id_email" name="email" class="input" required>
+                    </div>
+
+                    <!-- 비밀번호 입력 -->
+                    <div class="group">
+                        <label for="id_password1" class="label">{% trans "Password" %}</label>
+                        <input type="password" id="id_password1" name="password1" class="input" required>
+                    </div>
+
+                    <!-- 비밀번호 확인-->
+                    <div class="group">
+                        <label for="id_password2" class="label">{% trans "REPEAT PASSWORD" %}</label>
+                        <input type="password" id="id_password2" name="password2" class="input" required>
+                    </div>
+
+                    <!--가입 성공시 리다이렉션 경로 지정-->
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                    {% endif %}
+
+                    <!-- 비밀번호 유효성 검사 메시지 -->
+                    {% for error in form.password1.errors %}
+                        <script>
+                            alert("{{ error }}");
+                        </script>
+                    {% endfor %}
+
+                    <!--Sign Up 버튼-->
+                    <div class="group">
+                        <input type="submit" class="button" style="background-color:#64a19d; font-weight: bold; font-size:14px;" value="{% trans " Sign Up" %}">
+                    </div>
+                </form>
+
+                <!-- 아이디 혹은 이메일이 이미 가입된 경우 알림 -->
+                {% for error in form.username.errors %}
+                    {% if error %}
+                    <script>
+                        alert("이미 존재하는 USERNAME입니다!");
+                    </script>
+                    {% endif %}
+                {% endfor %}
+                {% for error in form.email.errors %}
+                    {% if error %}
+                    <script>
+                        alert("이미 존재하는 E-MAIL입니다!");
+                    </script>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <div class="hr"></div>
+        <div class="foot-lnk">
+            <!--소셜 로그인-->
+            {% if SOCIALACCOUNT_ENABLED %}
+                <a class="button button--social-login button--google" style="width: 100%;" href="/accounts/google/login/?process=login">
+                    <i class="icon fa fa-google"></i>
+                    구글 계정으로 로그인
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+<head>
+    <title>냉장고 속 재료 입력</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'blog/asserts/favicon.png' %}"/>
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 부트스트랩 CSS -->
+    <!-- 프로젝트에 맞는 추가적인 CSS -->
+    <link href="{% static 'blog/css/reco_style.css' %}" rel="stylesheet">
+</head>
+<body>
+<header class="food d-flex justify-content-center align-items-center vh-100" style="background-image: url('{% static '/blog/asserts/images/backgd.jpg' %}');">
+        <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+            <div class="d-flex justify-content-center"  style="background-color : rgb(0,100,0); opacity : 0.9; padding: 20px; box-shadow: 10px 5px 5px black; border-radius: 15px;">
+                <div class="text-center">
+<!--                    <div style="font-size:50px; font-weight: bolder; color:#006400;">냉장고 재료 입력</div>-->
+                    <h1 class="fw-bold" style="color:beige; opacity : 1; "> 냉장고 재료 입력 </h1>
+
+                    <form method="post" id="ingredient_form">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="ingredient1" class="col-form-label-lg" style="float:left; font-size:18px; font-weight: bold; color:white;">재료 입력</label>
+                            <input type="text" class="form-control" id="ingredient1" name="ingredient1" placeholder="가지고 있는 재료를 입력해주세요!">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ingredient2" class="col-form-label-lg text-left" style="float:left; font-size:18px; font-weight: bold; color:white;">재료 입력</label>
+                            <input type="text" class="form-control" id="ingredient2" name="ingredient2" placeholder="가지고 있는 재료를 입력해주세요!">
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3 p-3">추천 메뉴 보기</button>
+                        {% if error_message %}
+<!--                            <div class="alert alert-danger mt-3" role="alert">{{ error_message }}</div>-->
+                            <script>
+                                alert("{{ error_message }}");
+                            </script>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+</header>
+
+    <!-- 부트스트랩 JS -->
+    <script src="{% static '/blog/js/reco_scripts.js' %}"></script>
+    <script>
+        document.getElementById('ingredient_form').addEventListener('submit' , function(event) {
+            var ingredient1 = document.getElementById('ingredient1').value.trim();
+            var ingredient2 = document.getElementById('ingredient2').value.trim();
+
+            if (ingredient1 === '' && ingredient2 === ''){
+                alert("하나 이상의 재료를 입력해 주세요");
+                event.preventDefault(); // 동작을 중단시킴 -> 해당 조건이 되면 submit 동작 중단
+            }
+        });
+    </script>
+</body>
+</html>
