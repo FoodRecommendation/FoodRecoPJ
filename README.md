@@ -22,24 +22,25 @@
 
 ###  💡플로우 차트
 
-![alt text](image.png)
+![image](https://github.com/user-attachments/assets/17a22081-d04c-48e2-8ba2-efc3df6532e9)
 
 ###  💡서비스 아키텍처
 
-![alt text](image-1.png)
+![image](https://github.com/user-attachments/assets/24a90b46-13ba-491e-9797-10296de6359b)
 
 ###  💡웹 사이트 소개
 
 - **사용자는 자신의 레시피를 커뮤니티 페이지를 통해 공유할 수 있습니다.**
 
-![alt text](image-2.png)
+
 
 - **사용자가 보유한 재료를 입력하여 메뉴를 추천 받을 수 있습니다.**
 
-![alt text](image-10.png)
+![image](https://github.com/user-attachments/assets/82bd3970-3b58-4155-bd28-8f17cbaac75f)
+
 
 - **추천 받은 메뉴 중 하나를 선택하여 자신의 취향을 반영한 레시피를 받을 수 있습니다.**
 
-![alt text](image-12.png)
+![image](https://github.com/user-attachments/assets/33471f1b-c2f1-4348-ac8b-3906209c2794)
 
-![alt text](image-13.png)
+![image](https://github.com/user-attachments/assets/89494648-66a3-448f-a532-2900fa2dc6cc)
